@@ -1,0 +1,3 @@
+pugmi_page_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: PugmiPageBundle:Default:index }

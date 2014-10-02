@@ -1,0 +1,4 @@
+pugmi_page:
+    resource: "@PugmiPageBundle/Resources/config/routing.yml"
+    prefix:   /
+
