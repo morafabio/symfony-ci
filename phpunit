@@ -1,0 +1,5 @@
+#!/bin/sh
+TESTDIR="$(dirname $0)"
+PHPUNIT="$TESTDIR/vendor/phpunit/phpunit/phpunit"
+
+$PHPUNIT $@
