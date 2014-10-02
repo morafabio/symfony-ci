@@ -3,7 +3,7 @@
 <project name="Symfony2" default="build">
 
     <target name="build"
-            depends="composer,check,doctrine-clean,doctrine-fixtures,phpunit" />
+            depends="composer,config,check,doctrine-clean,doctrine-fixtures,phpunit" />
 
     <target name="composer" description="Installing vendors via Composer">
         <exec executable="php" failonerror="true">
@@ -14,12 +14,12 @@
         </exec>
     </target>
 
-    <!--<target name="parameters" description="Copy parameters">-->
-        <!--<exec executable="cp" failonerror="true">-->
-            <!--<arg path="app/config/parameters.yml.dist" />-->
-            <!--<arg path="app/config/parameters.yml" />-->
-        <!--</exec>-->
-    <!--</target>-->
+    <target name="config" description="Copy parameters">
+        <exec executable="cp" failonerror="true">
+            <arg path="app/config/parameters.yml.ci" />
+            <arg path="app/config/parameters.yml" />
+        </exec>
+    </target>
 
     <target name="doctrine-clean" description="Symfony2 app/check.php">
         <exec executable="php" failonerror="false">
