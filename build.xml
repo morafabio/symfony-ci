@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Symfony2" default="build">
+
+    <target name="build"
+            depends="composer,appcheck,parameters,phpunit" />
+
+    <target name="composer" description="Installing vendors via Composer">
+        <exec executable="php" failonerror="true">
+            <arg value="./composer.phar" />
+            <arg value="install" />
+            <arg value="--no-interaction" />
+            <arg value="--no-progress" />
+        </exec>
+    </target>
+
+    <target name="parameters" description="Copy parameters">
+        <exec executable="cp" failonerror="true">
+            <arg path="app/config/parameters.yml.dist" />
+            <arg path="app/config/parameters.yml" />
+        </exec>
+    </target>
+
+    <target name="appcheck" description="Symfony2 app/check.php">
+        <exec executable="php" failonerror="true">
+            <arg path="app/check.php" />
+        </exec>
+    </target>
+
+    <target name="phpunit" description="Run unit tests with PHPUnit">
+        <exec executable="./phpunit" failonerror="true">
+            <arg value="-c" />
+            <arg path="${basedir}/app/" />
+        </exec>
+    </target>
+
+</project>
