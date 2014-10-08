@@ -1,19 +1,33 @@
-set :application, "set your application name here"
-set :domain,      "#{application}.com"
+set :application, "symfony-ci"
+set :domain,      "pugmi.it"
 set :deploy_to,   "/var/www/#{domain}"
 set :app_path,    "app"
 
-set :repository,  "#{domain}:/var/repos/#{application}.git"
+role :web,        domain                         
+role :app,        domain, :primary => true 
+
+set :repository,  "https://github.com/morafabio/symfony-ci"
 set :scm,         :git
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `subversion`, `mercurial`, `perforce`, or `none`
 
-set :model_manager, "doctrine"
-# Or: `propel`
+set :keep_releases,  	5
 
-role :web,        domain                         # Your HTTP server, Apache/etc
-role :app,        domain, :primary => true       # This may be the same as your `Web` server
+# Set SSH config
+set :user,	"vagrant"
+set :use_sudo,	true
 
-set  :keep_releases,  3
+# Set ORM type and the database hostname
+set  :model_manager, 	"doctrine" 
+role :db, domain 	# Migrations will run here
 
-# Be more verbose by uncommenting the following line
-# logger.level = Logger::MAX_LEVEL
+# Unversioned shared resources
+set :shared_files,      ["app/config/parameters.yml"]
+set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor"]
+
+# Checkout latest git tag for deploy
+set :branch, 	  `git tag`.split("\n").last
+
+# Tasks to perform before switching the current/ symlink
+before "symfony:cache:warmup", "symfony:doctrine:migrations:migrate"
+
+
+
